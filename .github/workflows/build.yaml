@@ -1,4 +1,4 @@
-name: CD/CI Workflow
+name: Build Image
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
       - name: Set tag from src repo
         if: ${{ !github.event.inputs.tag }}
         run: |
-          echo image_tag=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/hashicorp/consul-dataplane/releases | jq -r .[0].tag_name) >> $GITHUB_ENV
+          echo image_tag=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/hashicorp/consul-dataplane/releases | jq -r .[0].tag_name) | tr -d v >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
